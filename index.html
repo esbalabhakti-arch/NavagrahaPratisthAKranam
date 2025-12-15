@@ -10,7 +10,7 @@
   --bg1:#3b236b;
   --bg2:#5b2a86;
   --bg3:#7a3fa0;
-  --card:rgba(255,255,255,.14);
+  --card:rgba(255,255,255,.12);
   --text:#ffffff;
   --muted:rgba(255,255,255,.85);
   --good:#22c55e;
@@ -26,115 +26,119 @@ body{
   color:var(--text);
   background:linear-gradient(135deg,var(--bg1),var(--bg2),var(--bg3));
   min-height:100vh;
-  padding:16px;
+  padding:10px;
 }
 
-.wrap{max-width:980px;margin:0 auto}
+/* Keep everything compact on phones */
+.wrap{max-width:920px;margin:0 auto}
 
 h1{
-  font-size:40px;
+  font-size:26px;
   font-weight:900;
-  margin:8px 0 4px;
+  margin:6px 0 2px;
+  line-height:1.1;
 }
 
 .subtitle{
-  font-size:20px;
+  font-size:14px;
   color:var(--muted);
-  margin-bottom:10px;
+  margin:0 0 6px;
 }
 
-/* ===== Compass ===== */
+/* Compass (small) */
 .compass-wrap{
   display:flex;
   justify-content:center;
-  margin:12px 0 18px;
+  margin:6px 0 10px;
 }
-
 .compass-wrap img{
-  width:120px;
-  max-width:40vw;
-  opacity:0.9;
+  width:78px;
+  max-width:26vw;
   background:white;
   border-radius:50%;
-  padding:8px;
+  padding:6px;
+  opacity:.92;
 }
 
-/* =================== */
-
+/* Controls */
 .row{
   display:flex;
-  gap:14px;
+  gap:8px;
   justify-content:center;
   flex-wrap:wrap;
-  margin-bottom:18px;
+  margin:6px 0 10px;
 }
 
 button{
-  font-size:18px;
+  font-size:14px;
   font-weight:700;
-  padding:12px 20px;
-  border-radius:14px;
+  padding:9px 12px;
+  border-radius:12px;
   border:none;
   cursor:pointer;
   background:rgba(255,255,255,.18);
   color:white;
 }
-
-button:hover{background:rgba(255,255,255,.28)}
+button:hover{background:rgba(255,255,255,.26)}
 button:disabled{opacity:.5}
 
+/* Message banner (compact) */
 .pill{
-  max-width:780px;
-  margin:0 auto 18px;
-  padding:14px;
-  border-radius:18px;
-  font-size:20px;
+  max-width:820px;
+  margin:0 auto 10px;
+  padding:9px 10px;
+  border-radius:14px;
+  font-size:14px;
   text-align:center;
+  line-height:1.25;
 }
+.pill.good{background:rgba(34,197,94,.30)}
+.pill.bad{background:rgba(239,68,68,.30)}
+.pill.info{background:rgba(59,130,246,.30)}
 
-.pill.good{background:rgba(34,197,94,.35)}
-.pill.bad{background:rgba(239,68,68,.35)}
-.pill.info{background:rgba(59,130,246,.35)}
-
+/* Cards */
 .card{
   background:var(--card);
-  border-radius:22px;
-  padding:16px;
-  margin-bottom:20px;
+  border-radius:18px;
+  padding:10px;
+  margin-bottom:10px;
 }
 
 .title{
-  font-size:24px;
+  font-size:15px;
   font-weight:800;
   text-align:center;
-  margin-bottom:14px;
+  margin:2px 0 8px;
 }
 
+/* Board (smaller tiles) */
 .board{
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:14px;
-  max-width:520px;
+  gap:8px;
+  max-width:360px;
   margin:0 auto;
 }
 
 .slot{
   aspect-ratio:1/1;
-  border-radius:20px;
-  border:3px dashed rgba(255,255,255,.45);
+  border-radius:14px;
+  border:2px dashed rgba(255,255,255,.45);
   display:flex;
   align-items:center;
   justify-content:center;
   cursor:pointer;
+  position:relative;
+  overflow:hidden;
 }
 
 .slot.filled{
   border-style:solid;
-  border-color:rgba(34,197,94,.7);
+  border-color:rgba(34,197,94,.62);
 }
 
 .slot.correct{
-  box-shadow:0 0 0 5px rgba(34,197,94,.45);
+  box-shadow:0 0 0 3px rgba(34,197,94,.40);
 }
 
 .inner{
@@ -142,43 +146,76 @@ button:disabled{opacity:.5}
   flex-direction:column;
   align-items:center;
   justify-content:center;
-  gap:6px;
+  gap:3px;
   font-weight:900;
   color:#111827;
 }
 
-.planet{font-size:44px}
-.name{font-size:22px}
+.planet{font-size:28px; line-height:1}
+.name{font-size:13px; line-height:1.1}
 
+/* Pool grid compact */
 .pool{
   display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:14px;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+  max-width:760px;
+  margin:0 auto;
 }
-
-@media (min-width:600px){
-  .pool{grid-template-columns:repeat(4,1fr)}
+@media (min-width:640px){
+  .pool{grid-template-columns:repeat(5,1fr)}
 }
 
 .piece{
   aspect-ratio:1/1;
-  border-radius:20px;
-  border:3px solid rgba(255,255,255,.6);
+  border-radius:14px;
+  border:2px solid rgba(255,255,255,.58);
   display:flex;
   align-items:center;
   justify-content:center;
   cursor:pointer;
+  position:relative;
+  overflow:hidden;
 }
 
 .piece.selected{
-  box-shadow:0 0 0 5px rgba(34,197,94,.55);
+  box-shadow:0 0 0 3px rgba(34,197,94,.55);
+}
+
+/* Direction badge (top-left) */
+.dir-badge{
+  position:absolute;
+  top:6px;
+  left:6px;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.4px;
+  padding:3px 6px;
+  border-radius:999px;
+  background:rgba(0,0,0,.35);
+  color:#fff;
+  line-height:1;
+  user-select:none;
+}
+
+/* Make direction labels readable on very light tiles */
+.dir-badge.light{
+  background:rgba(0,0,0,.42);
 }
 
 .footer{
   text-align:center;
-  font-size:16px;
-  margin-top:12px;
-  color:rgba(255,255,255,.85);
+  font-size:11px;
+  margin-top:6px;
+  color:rgba(255,255,255,.82);
+}
+
+/* Extra: reduce vertical density even more on short screens */
+@media (max-height: 720px){
+  .compass-wrap img{ width:70px; padding:5px; }
+  .board{ max-width:330px; gap:7px; }
+  .pool{ gap:7px; }
+  .card{ padding:9px; margin-bottom:9px; }
 }
 </style>
 </head>
@@ -186,20 +223,15 @@ button:disabled{opacity:.5}
 <body>
 <div class="wrap">
 
-  <!-- HEADER -->
   <div style="text-align:center">
     <h1>Navagraha Pratiṣṭhā Kramam</h1>
-    <div class="subtitle">
-      Learn the correct temple installation positions of the Navagrahas
-    </div>
+    <div class="subtitle">Learn the correct temple installation positions of the Navagrahas</div>
   </div>
 
-  <!-- COMPASS -->
   <div class="compass-wrap">
     <img src="compass.png" alt="Compass showing North South East West">
   </div>
 
-  <!-- CONTROLS -->
   <div class="row">
     <button id="shuffle">🔀 Shuffle</button>
     <button id="reset">🔄 Reset</button>
@@ -208,37 +240,59 @@ button:disabled{opacity:.5}
 
   <div id="message" class="pill" style="display:none"></div>
 
-  <!-- BOARD -->
   <div class="card">
-    <div class="title">Pratiṣṭhā Maṇḍala</div>
+    <div class="title">Pratiṣṭhā Maṇḍala (3×3)</div>
     <div id="board" class="board"></div>
   </div>
 
-  <!-- PIECES -->
   <div class="card">
     <div class="title">Available Grahas</div>
     <div id="pool" class="pool"></div>
   </div>
 
-  <div class="footer">
-    Designed for learning • Shareable via WhatsApp • No installation required
-  </div>
-
+  <div class="footer">Designed for learning • Shareable via WhatsApp • No installation required</div>
 </div>
 
 <script>
+// Piece IDs:
+// 0 Guru, 1 Shukra, 2 Budha, 3 Mangala, 4 Surya, 5 Shani, 6 Chandra, 7 Rahu, 8 Ketu
 const deities = [
-  { name:'Guru',    planet:'♃', color:'#FFB84D' },
-  { name:'Shukra',  planet:'♀', color:'#FFF4A3' },
-  { name:'Budha',   planet:'☿', color:'#90EE90' },
-  { name:'Mangala', planet:'♂', color:'#FF6B6B' },
-  { name:'Surya',   planet:'☉', color:'#FFD700' },
-  { name:'Shani',   planet:'♄', color:'#4169E1' },
-  { name:'Chandra', planet:'☽', color:'#E6E6FA' },
-  { name:'Rahu',    planet:'☊', color:'#8B4513' },
-  { name:'Ketu',    planet:'☋', color:'#708090' }
+  { id:0, name:'Guru',    planet:'♃', color:'#FFB84D' },
+  { id:1, name:'Shukra',  planet:'♀', color:'#FFF4A3' },
+  { id:2, name:'Budha',   planet:'☿', color:'#90EE90' },
+  { id:3, name:'Mangala', planet:'♂', color:'#FF6B6B' },
+  { id:4, name:'Surya',   planet:'☉', color:'#FFD700' },
+  { id:5, name:'Shani',   planet:'♄', color:'#4169E1' },
+  { id:6, name:'Chandra', planet:'☽', color:'#E6E6FA' },
+  { id:7, name:'Rahu',    planet:'☊', color:'#8B4513' },
+  { id:8, name:'Ketu',    planet:'☋', color:'#708090' }
 ];
 
+// Board indices (0..8) are laid out as:
+// 0 1 2
+// 3 4 5
+// 6 7 8
+// Your requested mandala:
+// NW Rahu, N Shukra, NE Ketu
+// W Guru(Brhaspati), C Surya, E Chandra
+// SW Shani, S Budha, SE Mangala
+const answerKey = [
+  7, 1, 8,
+  0, 4, 6,
+  5, 2, 3
+];
+
+// Direction label per board square (for showing on available pieces)
+const dirOfBoardIndex = ['NW','N','NE','W','C','E','SW','S','SE'];
+
+// Map pieceId -> its correct board index (where it belongs)
+const correctIndexOfPiece = (() => {
+  const map = Array(9).fill(null);
+  answerKey.forEach((pieceId, boardIdx) => map[pieceId] = boardIdx);
+  return map;
+})();
+
+// State
 let pieces = shuffle([...Array(9).keys()]);
 let board = Array(9).fill(null);
 let selected = null;
@@ -261,85 +315,114 @@ function show(type,html){
   msgEl.innerHTML=html;
   msgEl.style.display="block";
 }
-
 function hide(){ msgEl.style.display="none"; }
 
 function render(){
   boardEl.innerHTML="";
   poolEl.innerHTML="";
 
-  board.forEach((p,i)=>{
+  // Board squares
+  board.forEach((pieceId, boardIdx)=>{
     const d=document.createElement("div");
-    d.className="slot"+(p!==null?" filled":"")+(p===i?" correct":"");
-    if(p!==null){
-      d.style.background=deities[p].color;
-      d.innerHTML=`<div class="inner">
-        <div class="planet">${deities[p].planet}</div>
-        <div class="name">${deities[p].name}</div>
-      </div>`;
+    const isCorrect = (pieceId !== null && pieceId === answerKey[boardIdx]);
+
+    d.className = "slot" + (pieceId!==null ? " filled" : "") + (isCorrect ? " correct" : "");
+
+    if(pieceId!==null){
+      d.style.background = deities[pieceId].color;
+      d.innerHTML = `
+        <div class="inner">
+          <div class="planet">${deities[pieceId].planet}</div>
+          <div class="name">${deities[pieceId].name}</div>
+        </div>`;
     }
-    d.onclick=()=>place(i);
+    d.onclick = () => place(boardIdx);
     boardEl.appendChild(d);
   });
 
-  pieces.forEach(p=>{
+  // Available pieces
+  pieces.forEach(pieceId=>{
     const d=document.createElement("div");
-    d.className="piece"+(selected===p?" selected":"");
-    d.style.background=deities[p].color;
-    d.innerHTML=`<div class="inner">
-      <div class="planet">${deities[p].planet}</div>
-      <div class="name">${deities[p].name}</div>
-    </div>`;
-    d.onclick=()=>select(p);
+    d.className = "piece" + (selected===pieceId ? " selected" : "");
+    d.style.background = deities[pieceId].color;
+
+    const correctBoardIdx = correctIndexOfPiece[pieceId];
+    const dir = dirOfBoardIndex[correctBoardIdx];
+
+    // add direction badge top-left
+    const badge = document.createElement("div");
+    badge.className = "dir-badge";
+    badge.textContent = dir;
+
+    // Make badge a bit darker on light tiles
+    if (pieceId === 1 || pieceId === 6) badge.classList.add("light");
+
+    d.innerHTML = `
+      <div class="inner">
+        <div class="planet">${deities[pieceId].planet}</div>
+        <div class="name">${deities[pieceId].name}</div>
+      </div>`;
+    d.appendChild(badge);
+
+    d.onclick = () => select(pieceId);
     poolEl.appendChild(d);
   });
 }
 
-function select(p){
-  if(selected!==null)return;
-  selected=p;
+function select(pieceId){
+  if(selected!==null) return;
+  selected = pieceId;
   cancelBtn.style.display="inline-block";
-  show("info",`Selected: <b>${deities[p].name}</b><br>Tap the correct position`);
+
+  const correctBoardIdx = correctIndexOfPiece[pieceId];
+  const dir = dirOfBoardIndex[correctBoardIdx];
+
+  show("info", `Selected: <b>${deities[pieceId].name}</b> <span style="opacity:.9">(goes to <b>${dir}</b>)</span><br>Tap the correct square.`);
   render();
 }
 
-function place(i){
-  if(selected===null||board[i]!==null)return;
+function place(boardIdx){
+  if(selected===null) return;
+  if(board[boardIdx]!==null) return;
 
-  if(selected===i){
-    board[i]=selected;
-    pieces=pieces.filter(x=>x!==selected);
-    selected=null;
+  // Correct placement based on answerKey
+  if(selected === answerKey[boardIdx]){
+    board[boardIdx] = selected;
+    pieces = pieces.filter(x => x !== selected);
+
+    selected = null;
     cancelBtn.style.display="none";
     hide();
 
-    if(board.every((x,idx)=>x===idx)){
-      show("good","Perfect Pratiṣṭhā! 🎉");
-    }
-  }else{
-    show("bad",`Incorrect placement for <b>${deities[selected].name}</b>.<br>Try another square or Cancel.`);
+    const done = board.every((pieceId, idx) => pieceId === answerKey[idx]);
+    if(done) show("good", "Perfect Pratiṣṭhā! 🎉");
+
+  } else {
+    // Wrong placement: keep selection, do NOT change board/pieces
+    show("bad", `Incorrect for <b>${deities[selected].name}</b>. Try another square or Cancel.`);
   }
+
   render();
 }
 
-cancelBtn.onclick=()=>{
-  selected=null;
+cancelBtn.onclick = () => {
+  selected = null;
   cancelBtn.style.display="none";
   hide();
   render();
 };
 
-document.getElementById("reset").onclick=()=>{
-  pieces=shuffle([...Array(9).keys()]);
-  board=Array(9).fill(null);
-  selected=null;
+document.getElementById("reset").onclick = () => {
+  pieces = shuffle([...Array(9).keys()]);
+  board = Array(9).fill(null);
+  selected = null;
   cancelBtn.style.display="none";
   hide();
   render();
 };
 
-document.getElementById("shuffle").onclick=()=>{
-  pieces=shuffle(pieces);
+document.getElementById("shuffle").onclick = () => {
+  pieces = shuffle(pieces);
   render();
 };
 
