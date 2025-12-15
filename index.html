@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Navagraha Pratiṣṭhā Kramam</title>
+
+  <!-- ======================
+       STYLES
+  ====================== -->
+  <style>
+    :root{
+      --bg1:#1b2b6b;
+      --bg2:#5b2a86;
+      --bg3:#b12a6b;
+      --card:rgba(255,255,255,.12);
+      --card2:rgba(255,255,255,.08);
+      --text:#ffffff;
+      --muted:rgba(255,255,255,.78);
+      --good:#22c55e;
+      --bad:#ef4444;
+      --info:#3b82f6;
+    }
+
+    *{box-sizing:border-box}
+
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(1200px 600px at 20% 10%, rgba(255,255,255,.12), transparent 50%),
+        linear-gradient(135deg,var(--bg1),var(--bg2),var(--bg3));
+      min-height:100vh;
+      padding:16px;
+    }
+
+    .wrap{max-width:980px;margin:0 auto}
+
+    h1{
+      margin:6px 0 4px;
+      font-size:32px;
+      font-weight:800;
+      letter-spacing:.3px;
+    }
+
+    .subtitle{
+      margin:0 0 14px;
+      color:var(--muted);
+      font-size:15px;
+    }
+
+    .row{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:center;
+      margin:12px 0 16px;
+    }
+
+    button{
+      border:1px solid rgba(255,255,255,.22);
+      color:white;
+      background:rgba(255,255,255,.14);
+      padding:10px 14px;
+      border-radius:12px;
+      cursor:pointer;
+      font-weight:600;
+      display:flex;
+      gap:8px;
+      align-items:center;
+    }
+
+    button:hover{background:rgba(255,255,255,.2)}
+    button:disabled{opacity:.5;cursor:not-allowed}
+
+    .pill{
+      background:rgba(255,255,255,.16);
+      border-radius:16px;
+      padding:12px;
+      margin:10px auto 14px;
+      max-width:780px;
+      text-align:center;
+    }
+
+    .pill.good{background:rgba(34,197,94,.25)}
+    .pill.bad{background:rgba(239,68,68,.25)}
+    .pill.info{background:rgba(59,130,246,.25)}
+
+    .card{
+      background:var(--card);
+      border-radius:18px;
+      padding:14px;
+      margin-bottom:14px;
+      backdrop-filter: blur(10px);
+    }
+
+    .title{
+      font-weight:800;
+      text-align:center;
+      margin-bottom:10px;
+    }
+
+    .board{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:10px;
+      max-width:520px;
+      margin:0 auto;
+    }
+
+    .slot{
+      aspect-ratio:1/1;
+      border-radius:16px;
+      border:2px dashed rgba(255,255,255,.4);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+      position:relative;
+    }
+
+    .slot.filled{
+      border-style:solid;
+      border-color:rgba(34,197,94,.6);
+    }
+
+    .slot.correct{
+      box-shadow:0 0 0 4px rgba(34,197,94,.35);
+    }
+
+    .inner{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap:4px;
+      font-weight:700;
+      color:#111827;
+    }
+
+    .planet{font-size:34px}
+    .name{font-size:16px}
+
+    .pool{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:10px;
+    }
+
+    @media (min-width:640px){
+      .pool{grid-template-columns: repeat(4, 1fr);}
+    }
+
+    .piece{
+      aspect-ratio:1/1;
+      border-radius:16px;
+      border:2px solid rgba(255,255,255,.5);
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .piece.selected{
+      box-shadow:0 0 0 4px rgba(34,197,94,.4);
+    }
+
+    .footer{
+      text-align:center;
+      font-size:12px;
+      color:rgba(255,255,255,.75);
+      margin-top:10px;
+    }
+  </style>
+</head>
+
+<body>
+<div class="wrap">
+
+  <!-- ======================
+       HEADER
+  ====================== -->
+  <div style="text-align:center">
+    <h1>Navagraha Pratiṣṭhā Kramam</h1>
+    <p class="subtitle">
+      Learn the correct temple installation positions of the Navagrahas
+    </p>
+  </div>
+
+  <!-- ======================
+       CONTROLS
+  ====================== -->
+  <div class="row">
+    <button id="shuffle">🔀 Shuffle</button>
+    <button id="reset">🔄 Reset</button>
+    <button id="cancel" style="display:none">✖ Cancel</button>
+  </div>
+
+  <div id="message" class="pill" style="display:none"></div>
+
+  <!-- ======================
+       BOARD
+  ====================== -->
+  <div class="card">
+    <div class="title">Pratiṣṭhā Maṇḍala</div>
+    <div id="board" class="board"></div>
+  </div>
+
+  <!-- ======================
+       PIECES
+  ====================== -->
+  <div class="card">
+    <div class="title">Available Grahas</div>
+    <div id="pool" class="pool"></div>
+  </div>
+
+  <div class="footer">
+    Designed for learning · Shareable via WhatsApp · No installation required
+  </div>
+
+</div>
+
+<!-- ======================
+     SCRIPT
+====================== -->
+<script>
+const deities = [
+  { name:'Guru',    planet:'♃', color:'#FFB84D' },
+  { name:'Shukra',  planet:'♀', color:'#FFF4A3' },
+  { name:'Budha',   planet:'☿', color:'#90EE90' },
+  { name:'Mangala', planet:'♂', color:'#FF6B6B' },
+  { name:'Surya',   planet:'☉', color:'#FFD700' },
+  { name:'Shani',   planet:'♄', color:'#4169E1' },
+  { name:'Chandra', planet:'☽', color:'#E6E6FA' },
+  { name:'Rahu',    planet:'☊', color:'#8B4513' },
+  { name:'Ketu',    planet:'☋', color:'#708090' }
+];
+
+let pieces = shuffle([...Array(9).keys()]);
+let board = Array(9).fill(null);
+let selected = null;
+
+const boardEl = document.getElementById("board");
+const poolEl = document.getElementById("pool");
+const msgEl = document.getElementById("message");
+
+function shuffle(arr){
+  for(let i=arr.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [arr[i],arr[j]]=[arr[j],arr[i]];
+  }
+  return arr;
+}
+
+function show(type,text){
+  msgEl.className="pill "+type;
+  msgEl.innerHTML=text;
+  msgEl.style.display="block";
+}
+
+function hide(){msgEl.style.display="none"}
+
+function render(){
+  boardEl.innerHTML="";
+  poolEl.innerHTML="";
+
+  board.forEach((p,i)=>{
+    const d=document.createElement("div");
+    d.className="slot"+(p!==null?" filled":"")+(p===i?" correct":"");
+    if(p!==null){
+      d.style.background=deities[p].color;
+      d.innerHTML=`<div class="inner"><div class="planet">${deities[p].planet}</div><div class="name">${deities[p].name}</div></div>`;
+    }
+    d.onclick=()=>place(i);
+    boardEl.appendChild(d);
+  });
+
+  pieces.forEach(p=>{
+    const d=document.createElement("div");
+    d.className="piece"+(selected===p?" selected":"");
+    d.style.background=deities[p].color;
+    d.innerHTML=`<div class="inner"><div class="planet">${deities[p].planet}</div><div class="name">${deities[p].name}</div></div>`;
+    d.onclick=()=>select(p);
+    poolEl.appendChild(d);
+  });
+}
+
+function select(p){
+  if(selected!==null)return;
+  selected=p;
+  show("info",`Selected: <b>${deities[p].name}</b><br>Tap the correct position`);
+  render();
+}
+
+function place(i){
+  if(selected===null||board[i]!==null)return;
+  if(selected===i){
+    board[i]=selected;
+    pieces=pieces.filter(x=>x!==selected);
+    selected=null;
+    hide();
+    if(board.every((x,i)=>x===i))show("good","Perfect Pratiṣṭhā! 🎉");
+  }else{
+    show("bad","Incorrect placement. Please try again.");
+  }
+  render();
+}
+
+document.getElementById("reset").onclick=()=>{
+  pieces=shuffle([...Array(9).keys()]);
+  board=Array(9).fill(null);
+  selected=null;
+  hide();
+  render();
+};
+
+document.getElementById("shuffle").onclick=()=>{
+  pieces=shuffle(pieces);
+  render();
+};
+
+render();
+</script>
+</body>
+</html>
