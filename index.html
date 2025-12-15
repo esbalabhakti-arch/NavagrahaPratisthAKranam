@@ -40,8 +40,26 @@ h1{
 .subtitle{
   font-size:20px;
   color:var(--muted);
-  margin-bottom:16px;
+  margin-bottom:10px;
 }
+
+/* ===== Compass ===== */
+.compass-wrap{
+  display:flex;
+  justify-content:center;
+  margin:12px 0 18px;
+}
+
+.compass-wrap img{
+  width:120px;
+  max-width:40vw;
+  opacity:0.9;
+  background:white;
+  border-radius:50%;
+  padding:8px;
+}
+
+/* =================== */
 
 .row{
   display:flex;
@@ -108,7 +126,6 @@ button:disabled{opacity:.5}
   align-items:center;
   justify-content:center;
   cursor:pointer;
-  position:relative;
 }
 
 .slot.filled{
@@ -169,6 +186,7 @@ button:disabled{opacity:.5}
 <body>
 <div class="wrap">
 
+  <!-- HEADER -->
   <div style="text-align:center">
     <h1>Navagraha Pratiṣṭhā Kramam</h1>
     <div class="subtitle">
@@ -176,6 +194,12 @@ button:disabled{opacity:.5}
     </div>
   </div>
 
+  <!-- COMPASS -->
+  <div class="compass-wrap">
+    <img src="compass.png" alt="Compass showing North South East West">
+  </div>
+
+  <!-- CONTROLS -->
   <div class="row">
     <button id="shuffle">🔀 Shuffle</button>
     <button id="reset">🔄 Reset</button>
@@ -184,11 +208,13 @@ button:disabled{opacity:.5}
 
   <div id="message" class="pill" style="display:none"></div>
 
+  <!-- BOARD -->
   <div class="card">
     <div class="title">Pratiṣṭhā Maṇḍala</div>
     <div id="board" class="board"></div>
   </div>
 
+  <!-- PIECES -->
   <div class="card">
     <div class="title">Available Grahas</div>
     <div id="pool" class="pool"></div>
@@ -236,9 +262,7 @@ function show(type,html){
   msgEl.style.display="block";
 }
 
-function hide(){
-  msgEl.style.display="none";
-}
+function hide(){ msgEl.style.display="none"; }
 
 function render(){
   boardEl.innerHTML="";
@@ -293,12 +317,12 @@ function place(i){
       show("good","Perfect Pratiṣṭhā! 🎉");
     }
   }else{
-    show("bad",`Incorrect placement for <b>${deities[selected].name}</b>.<br>Please try another square or Cancel.`);
+    show("bad",`Incorrect placement for <b>${deities[selected].name}</b>.<br>Try another square or Cancel.`);
   }
   render();
 }
 
-document.getElementById("cancel").onclick=()=>{
+cancelBtn.onclick=()=>{
   selected=null;
   cancelBtn.style.display="none";
   hide();
